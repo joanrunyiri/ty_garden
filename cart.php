@@ -132,6 +132,7 @@ $conn->close();
 echo '
     <div class="cart-total mb-3">
         <h3>Cart Totals</h3>
+        
         <p class="d-flex">
             <span>Subtotal</span>
             <span>$' . number_format($subtotal, 2) . '</span>
