@@ -67,42 +67,47 @@
               	<a class="dropdown-item" href="shop.php">Shop</a>
               	<a class="dropdown-item" href="wishlist.html">Wishlist</a>
                 <a class="dropdown-item" href="product-single.html">Single Product</a>
-                <a class="dropdown-item" href="cart.html">Cart</a>
+                <a class="dropdown-item" href="cart.php">Cart</a>
                 <a class="dropdown-item" href="checkout.html">Checkout</a>
               </div>
             </li>
 	          <li class="nav-item"><a href="about.php" class="nav-link">About</a></li>
 	          <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li>
 	          <li class="nav-item"><a href="contact.php" class="nav-link">Contact</a></li>
-	          <li class="nav-item cta cta-colored"><a href="cart.html" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+                <?php include 'cart_icon.php'; ?>
 			  <?php
-			  require('connect.php');
-				if (isset($_COOKIE['user_email'])) {
-				// User is logged in, get the email from the cookie
-				$email = $_COOKIE['user_email'];
+require('connect.php');
 
-				// Assuming you have a users table with a column 'email'
-				$query = "SELECT first_name FROM users WHERE email = '$email'";
-				$result = mysqli_query($conn, $query);
-				$row = mysqli_fetch_assoc($result);
-				$username = $row['first_name'];
-				echo '<li class="nav-item dropdown">';
-				echo '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi, ' . $username . '</a>';
-				echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
-				echo '<li><a class="dropdown-item" href="my_account.php">My Account</a></li>';
-				echo '<li><a class="dropdown-item" href="inbox.php">Inbox</a></li>';
-				echo '<li><a class="dropdown-item" href="saved_items.php">Saved Items</a></li>';
-				echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
-				echo '</ul>';
-				echo '</li>';
+if (isset($_COOKIE['user_email'])) {
+    // User is logged in, get the email from the cookie
+    $email = $_COOKIE['user_email'];
 
-				// echo
-				//  '<li class="nav-item"><a href="contact.php" class="nav-link">Hi, ' . $username . '!</li>';
-				} else {
-				// User is not logged in, display login and sign up links
-				echo '<li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>';
-				}
-				?>
+    // Assuming you have a users table with a column 'email'
+    $query = "SELECT first_name FROM users WHERE email = '$email'";
+    $result = mysqli_query($conn, $query);
+    $row = mysqli_fetch_assoc($result);
+
+    if ($row) {
+        // User found in the database, display the username
+        $username = $row['first_name'];
+        echo '<li class="nav-item dropdown">';
+        echo '<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi, ' . $username . '</a>';
+        echo '<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
+        echo '<li><a class="dropdown-item" href="my_account.php">My Account</a></li>';
+        echo '<li><a class="dropdown-item" href="inbox.php">Inbox</a></li>';
+        echo '<li><a class="dropdown-item" href="saved_items.php">Saved Items</a></li>';
+        echo '<li><a class="dropdown-item" href="logout.php">Logout</a></li>';
+        echo '</ul>';
+        echo '</li>';
+    } else {
+        // User not found in the database, handle the case accordingly (e.g., display a generic greeting)
+        echo '<li class="nav-item"><a href="#" class="nav-link">Hi, Guest</a></li>';
+    }
+} else {
+    // User is not logged in, display login and sign up links
+    echo '<li class="nav-item"><a href="login.php" class="nav-link">Login</a></li>';
+}
+?>
 
 
 
